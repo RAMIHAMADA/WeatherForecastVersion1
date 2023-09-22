@@ -6,14 +6,159 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.MainFragment">
 
-    <TextView
-        android:id="@+id/tv_main_fragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:scaleType="fitXY"
+        android:src="@drawable/sky"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:text="F1" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="@color/card_blue_bg"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constrain_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/data_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/allerta"
+                android:text="12/12/2024 13:00"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/constrain_container"
+                app:layout_constraintTop_toTopOf="@id/constrain_container" />
+
+            <ImageView
+                android:id="@+id/weather_iv"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_test_android"
+                app:layout_constraintEnd_toEndOf="@id/constrain_container"
+                app:layout_constraintTop_toTopOf="@id/constrain_container" />
+
+            <TextView
+                android:id="@+id/city_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/allerta"
+                android:text="SaintP."
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                app:layout_constraintEnd_toEndOf="@id/constrain_container"
+                app:layout_constraintStart_toStartOf="@id/constrain_container"
+                app:layout_constraintTop_toBottomOf="@id/weather_iv" />
+
+            <TextView
+                android:id="@+id/current_temp_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/allerta"
+                android:text="20C"
+                android:textColor="@color/white"
+                android:textSize="60sp"
+                app:layout_constraintEnd_toEndOf="@id/constrain_container"
+                app:layout_constraintStart_toStartOf="@id/constrain_container"
+                app:layout_constraintTop_toBottomOf="@id/city_tv" />
+
+            <TextView
+                android:id="@+id/condition_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/allerta"
+                android:text="Sunny"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@id/constrain_container"
+                app:layout_constraintStart_toStartOf="@id/constrain_container"
+                app:layout_constraintTop_toBottomOf="@id/current_temp_tv" />
+
+            <TextView
+                android:id="@+id/max_min_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/allerta"
+                android:text="34C/15C"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="@id/constrain_container"
+                app:layout_constraintStart_toStartOf="@id/constrain_container"
+                app:layout_constraintTop_toBottomOf="@id/condition_tv" />
+
+            <ImageButton
+                android:id="@+id/sync_ib"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@null"
+                android:src="@drawable/ic_cloud_sync"
+                app:layout_constraintBottom_toBottomOf="@id/constrain_container"
+                app:layout_constraintEnd_toEndOf="@id/constrain_container"
+                app:layout_constraintTop_toBottomOf="@id/max_min_tv" />
+
+            <ImageButton
+                android:id="@+id/search_ib"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:background="@null"
+                android:src="@drawable/ic_search"
+                app:layout_constraintStart_toStartOf="@id/constrain_container"
+                app:layout_constraintTop_toTopOf="@id/sync_ib" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="@color/card_blue_bg"
+        app:layout_constraintEnd_toEndOf="@id/cardView_container"
+        app:layout_constraintStart_toStartOf="@id/cardView_container"
+        app:layout_constraintTop_toBottomOf="@id/cardView_container">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HOURS" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DAYS" />
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/tab_layout"
+        app:layout_constraintStart_toStartOf="@id/tab_layout"
+        app:layout_constraintTop_toBottomOf="@id/tab_layout" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
