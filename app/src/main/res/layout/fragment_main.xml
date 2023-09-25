@@ -37,13 +37,13 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/data_tv"
+                android:id="@+id/date_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/allerta"
-                android:text="12/12/2024 13:00"
+                android:text="12/12/2023 13:00"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@id/constrain_container"
                 app:layout_constraintTop_toTopOf="@id/constrain_container" />

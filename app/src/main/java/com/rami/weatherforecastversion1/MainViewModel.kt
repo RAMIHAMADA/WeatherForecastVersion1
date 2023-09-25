@@ -2,9 +2,10 @@ package com.rami.weatherforecastversion1
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.rami.weatherforecastversion1.DayItem
+import com.rami.weatherforecastversion1.data.DayItem
+import com.rami.weatherforecastversion1.data.WeatherModel
 
 class MainViewModel: ViewModel() {
-    val liveDataCurrent = MutableLiveData<DayItem>()
-    val liveDataList = MutableLiveData<List<String>>()
+    val liveDataCurrent = MutableLiveData<WeatherModel>()
+    val liveDataList = MutableLiveData<List<WeatherModel>>()
 }
