@@ -1,4 +1,4 @@
-package com.rami.weatherforecastversion1
+package com.rami.weatherforecastversion1.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

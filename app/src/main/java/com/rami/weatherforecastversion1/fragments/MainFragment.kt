@@ -13,7 +13,9 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.rami.weatherforecastversion1.R
 import com.rami.weatherforecastversion1.adapters.ViewPagerAdapter
+import com.rami.weatherforecastversion1.api.RequestWeatherData
 import com.rami.weatherforecastversion1.databinding.FragmentMainBinding
+
 
 class MainFragment : Fragment() {
     private lateinit var pLauncher: ActivityResultLauncher<String>
@@ -22,6 +24,7 @@ class MainFragment : Fragment() {
         HoursFragment.newInstance(),
         DaysFragment.newInstance()
     )
+    private val requestWeatherData = RequestWeatherData(requireContext())
 
 
     override fun onCreateView(
@@ -36,6 +39,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         checkPermissions()
         init()
+        requestWeatherData.requestWeatherData("London")
     }
 
     private fun init() = with(binding) {
@@ -71,6 +75,7 @@ class MainFragment : Fragment() {
             pLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
     }
+
 
     companion object {
         @JvmStatic
