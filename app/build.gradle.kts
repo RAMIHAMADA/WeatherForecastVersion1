@@ -52,7 +52,7 @@ dependencies {
     implementation("com.android.volley:volley:1.2.1")
 
     //picasso
-    implementation("com.squareup.picasso:picasso:2.5.2")
+    implementation("com.squareup.picasso:picasso:2.71828")
 
     //fragment
     implementation("androidx.fragment:fragment-ktx:1.6.1")
