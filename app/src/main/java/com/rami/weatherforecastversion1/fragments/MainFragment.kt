@@ -67,7 +67,7 @@ class MainFragment : Fragment() {
             currentTempTv.text = "${it.currentTemp}C"
             conditionTv.text = it.condition
             maxMinTv.text = maxMinTemp
-            Picasso.get().load(it.imageUrl).into(weatherIv)
+            Picasso.get().load("https:" + it.imageUrl).into(weatherIv)
 
 
         }
@@ -112,9 +112,6 @@ class MainFragment : Fragment() {
             weatherItem.hours
         )
         model.liveDataCurrent.value = item
-        Log.e("COK", "MaxTemp: ${item.maxTemp}")
-        Log.e("COK", "MinTemp: ${item.minTemp}")
-        Log.e("COK", "Hours: ${item.hours}")
     }
 
     private fun requestWeatherData(city: String) {

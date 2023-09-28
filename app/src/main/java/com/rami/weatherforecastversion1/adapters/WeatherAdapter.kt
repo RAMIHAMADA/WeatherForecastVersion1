@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rami.weatherforecastversion1.R
 import com.rami.weatherforecastversion1.data.WeatherModel
 import com.rami.weatherforecastversion1.databinding.ListItemBinding
+import com.squareup.picasso.Picasso
 
 class WeatherAdapter : ListAdapter<WeatherModel, WeatherAdapter.Holder>(Comparator()) {
     class Holder(view: View) : RecyclerView.ViewHolder(view) {
@@ -16,7 +17,8 @@ class WeatherAdapter : ListAdapter<WeatherModel, WeatherAdapter.Holder>(Comparat
         fun bind(item: WeatherModel) = with(binding) {
             dateTv.text = item.time
             conditionTv.text = item.condition
-            tempTv.text = item.currentTemp
+            tempTv.text = "${item.currentTemp}C"
+            Picasso.get().load("https:" + item.imageUrl).into(image)
         }
     }
 
