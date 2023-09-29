@@ -1,6 +1,7 @@
 package com.rami.weatherforecastversion1.fragments
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,12 +11,17 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.material.tabs.TabLayoutMediator
 import com.rami.weatherforecastversion1.R
 import com.rami.weatherforecastversion1.adapters.ViewPagerAdapter
@@ -30,6 +36,7 @@ const val API_KAY = "43a8ac71df6347548d1144132232109"
 class MainFragment : Fragment() {
     private lateinit var pLauncher: ActivityResultLauncher<String>
     private lateinit var binding: FragmentMainBinding
+    private lateinit var fLocationClient: FusedLocationProviderClient
     private val fragmentList = listOf(
         HoursFragment.newInstance(),
         DaysFragment.newInstance()
@@ -50,13 +57,39 @@ class MainFragment : Fragment() {
         checkPermissions()
         init()
         updateCurrentCard()
-        requestWeatherData("London")
+       getLocation()
     }
 
     private fun init() = with(binding) {
+        locationClient()
         val adapter = ViewPagerAdapter(activity as AppCompatActivity, fragmentList)
         viewPager.adapter = adapter
         tabLayoutMediator()
+        syncIb.setOnClickListener {
+            getLocation()
+        }
+    }
+
+    private fun locationClient() {
+        fLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+    }
+
+    private fun getLocation() {
+        val ct = CancellationTokenSource()
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        fLocationClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, ct.token)
+            .addOnCompleteListener {
+            requestWeatherData("${it.result.latitude}, ${it.result.longitude}")
+            }
     }
 
     private fun updateCurrentCard() = with(binding) {
