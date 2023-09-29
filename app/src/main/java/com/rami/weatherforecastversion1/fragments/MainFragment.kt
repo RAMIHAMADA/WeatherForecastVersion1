@@ -64,9 +64,9 @@ class MainFragment : Fragment() {
             val maxMinTemp = "${it.maxTemp}C / ${it.minTemp}C"
             dateTv.text = it.time
             cityTv.text = it.city
-            currentTempTv.text = "${it.currentTemp}C"
+            currentTempTv.text = it.currentTemp.ifEmpty { maxMinTemp }
             conditionTv.text = it.condition
-            maxMinTv.text = maxMinTemp
+            maxMinTv.text = if (it.currentTemp.isEmpty()) "" else maxMinTemp
             Picasso.get().load("https:" + it.imageUrl).into(weatherIv)
 
 
@@ -90,8 +90,8 @@ class MainFragment : Fragment() {
                 day.getString("date"),
                 day.getJSONObject("day").getJSONObject("condition").getString("text"),
                 "",
-                day.getJSONObject("day").getString("maxtemp_c"),
-                day.getJSONObject("day").getString("mintemp_c"),
+                day.getJSONObject("day").getString("maxtemp_c").toFloat().toInt().toString(),
+                day.getJSONObject("day").getString("mintemp_c").toFloat().toInt().toString(),
                 day.getJSONObject("day").getJSONObject("condition").getString("icon"),
                 day.getJSONArray("hour").toString()
             )
