@@ -1,8 +1,16 @@
 package com.rami.weatherforecastversion1.fragments
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.app.LocaleManager
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.LocationManager
+import android.media.audiofx.Equalizer
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,19 +18,24 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.LocaleManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.gms.common.api.GoogleApi
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.material.tabs.TabLayoutMediator
+import com.rami.weatherforecastversion1.DialogManager
 import com.rami.weatherforecastversion1.R
 import com.rami.weatherforecastversion1.adapters.ViewPagerAdapter
 import com.rami.weatherforecastversion1.data.WeatherModel
@@ -57,7 +70,11 @@ class MainFragment : Fragment() {
         checkPermissions()
         init()
         updateCurrentCard()
-       getLocation()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkLocation()
     }
 
     private fun init() = with(binding) {
@@ -67,6 +84,20 @@ class MainFragment : Fragment() {
         tabLayoutMediator()
         syncIb.setOnClickListener {
             getLocation()
+            checkLocation()
+        }
+    }
+
+    private fun checkLocation(){
+        if(isLocationEnable()){
+            getLocation()
+        }else{
+            DialogManager.locationSettingsDialog(requireContext(), object : DialogManager.Listener{
+                override fun onClick() {
+                    getLocation()
+                    startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                }
+            })
         }
     }
 
@@ -86,10 +117,19 @@ class MainFragment : Fragment() {
         ) {
             return
         }
-        fLocationClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, ct.token)
+        fLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, ct.token)
             .addOnCompleteListener {
             requestWeatherData("${it.result.latitude}, ${it.result.longitude}")
             }
+    }
+
+
+
+
+    private fun isLocationEnable(): Boolean{
+        val lm = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+
     }
 
     private fun updateCurrentCard() = with(binding) {
