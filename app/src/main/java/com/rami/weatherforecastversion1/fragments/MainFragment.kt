@@ -86,6 +86,15 @@ class MainFragment : Fragment() {
             getLocation()
             checkLocation()
         }
+        searchIb.setOnClickListener{
+            DialogManager.searchByName(requireContext(), object : DialogManager.Listener{
+                override fun onClick(name: String?) {
+                    name?.let { it1 -> requestWeatherData(it1) }
+                }
+
+            })
+        }
+
     }
 
     private fun checkLocation(){
@@ -93,7 +102,7 @@ class MainFragment : Fragment() {
             getLocation()
         }else{
             DialogManager.locationSettingsDialog(requireContext(), object : DialogManager.Listener{
-                override fun onClick() {
+                override fun onClick(name: String?) {
                     getLocation()
                     startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
                 }
