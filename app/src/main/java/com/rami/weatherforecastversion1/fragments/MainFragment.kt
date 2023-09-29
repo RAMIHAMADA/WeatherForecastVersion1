@@ -94,7 +94,6 @@ class MainFragment : Fragment() {
 
             })
         }
-
     }
 
     private fun checkLocation(){
