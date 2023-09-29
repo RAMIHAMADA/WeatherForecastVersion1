@@ -11,13 +11,13 @@ import com.rami.weatherforecastversion1.data.WeatherModel
 import com.rami.weatherforecastversion1.databinding.ListItemBinding
 import com.squareup.picasso.Picasso
 
-class WeatherAdapter : ListAdapter<WeatherModel, WeatherAdapter.Holder>(Comparator()) {
+class WeatherAdapter(val listener: Listener?) : ListAdapter<WeatherModel, WeatherAdapter.Holder>(Comparator()) {
     class Holder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ListItemBinding.bind(view)
         fun bind(item: WeatherModel) = with(binding) {
             dateTv.text = item.time
             conditionTv.text = item.condition
-            tempTv.text = "${item.currentTemp}C"
+            tempTv.text = item.currentTemp.ifEmpty { "${item.maxTemp}C / ${item.minTemp}C" }
             Picasso.get().load("https:" + item.imageUrl).into(image)
         }
     }
@@ -42,5 +42,9 @@ class WeatherAdapter : ListAdapter<WeatherModel, WeatherAdapter.Holder>(Comparat
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.bind(getItem(position))
+    }
+
+    interface Listener {
+        fun onClick(item: WeatherModel)
     }
 }

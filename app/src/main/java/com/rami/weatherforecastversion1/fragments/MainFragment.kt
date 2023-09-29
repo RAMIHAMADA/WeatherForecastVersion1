@@ -87,7 +87,7 @@ class MainFragment : Fragment() {
             val day = daysArray[i] as JSONObject
             val item = WeatherModel(
                 name,
-                day.getString("day"),
+                day.getString("date"),
                 day.getJSONObject("day").getJSONObject("condition").getString("text"),
                 "",
                 day.getJSONObject("day").getString("maxtemp_c"),
@@ -97,6 +97,7 @@ class MainFragment : Fragment() {
             )
             list.add(item)
         }
+        model.liveDataList.value = list
         return list
     }
 
